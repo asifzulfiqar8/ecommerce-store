@@ -5,8 +5,7 @@ import { connectDB } from './lib/db.js';
 
 const app = express();
 
-app.use('/api/auth', authRoutes)
-
+app.use('/api/auth', authRoutes);
 
 const PORT = getEnv('PORT') || 5000;
 
