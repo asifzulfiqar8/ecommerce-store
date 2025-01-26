@@ -4,7 +4,8 @@ dotenv.config();
 
 const config = Object.freeze({
     PORT: process.env.PORT,
-    MONGO_URI: process.env.MONGO_URI
+    MONGO_URI: process.env.MONGO_URI,
+    UOSTASH_REDIS_URI: process.env.UOSTASH_REDIS_URI
 })
 
 const getEnv = (key) => {

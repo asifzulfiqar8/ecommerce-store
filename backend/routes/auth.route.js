@@ -3,8 +3,8 @@ import { login, logout, signup } from '../controllers/auth.controller.js';
 
 const app = express();
 
-app.get('/signup', signup);
-app.get('/login', login);
-app.get('/logout', logout);
+app.post('/signup', signup);
+app.post('/login', login);
+app.post('/logout', logout);
 
 export default app;
