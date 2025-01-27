@@ -1,4 +1,4 @@
 import Redis from "ioredis"
-import getEnv from "../config/config";
+import getEnv from "../config/config.js";
 
-export const client = new Redis(getEnv(UOSTASH_REDIS_URI));
+export const redis = new Redis(getEnv("UOSTASH_REDIS_URI"));
