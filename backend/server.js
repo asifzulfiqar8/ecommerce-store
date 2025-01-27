@@ -9,8 +9,8 @@ const app = express();
 
 app.use(morgan('dev'))
 app.use(express.json())
-app.use('/api/auth', authRoutes);
 app.use(cookieParser())
+app.use('/api/auth', authRoutes);
 
 const PORT = getEnv('PORT') || 5000;
 

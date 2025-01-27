@@ -38,10 +38,13 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
+    console.log('refresh', refreshToken)
     if(refreshToken) {
+      const verify = jwt.decode(refreshToken)
       const decoded = jwt.verify(refreshToken, getEnv("REFRESH_TOKEN_SECRET"))
       await redis.del(`refresh_token:${decoded.userId}`)
       console.log('refreshtoken', refreshToken)
+      console.log('verifyied', verify)
       console.log('refreshtoken', decoded)
     }
 
