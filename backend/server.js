@@ -1,5 +1,7 @@
 import express from 'express';
 import authRoutes from './routes/auth.routes.js'
+import productsRoutes from './routes/product.routes.js'
+import cartRoutes from './routes/cart.routes.js'
 import getEnv from './config/config.js'
 import { connectDB } from './lib/db.js';
 import morgan from 'morgan';
@@ -11,6 +13,8 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/cart', cartRoutes)
 
 const PORT = getEnv('PORT') || 5000;
 
