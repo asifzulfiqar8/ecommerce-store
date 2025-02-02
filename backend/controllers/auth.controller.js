@@ -44,7 +44,6 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.comparePassword(password))) {
-      console.log("user:", user);
       const { accessToken, refreshToken } = generateTokens(user._id);
       await storeRefreshToken(user._id, refreshToken);
       setCookies(res, refreshToken, accessToken);
@@ -82,3 +81,37 @@ export const logout = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+export const getProfile = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if(!refreshToken) res.status(401).json({message: "No refresh token provided"})
+    
+    const decoded = jwt.decode(refreshToken, getEnv("REFRESH_TOKEN_SECRET"))
+    const storedToken = await redis.get(`refresh_token:${decoded.userId}`)
+
+    if(storedToken !== refreshToken) res.status(401).json({message: "Invalide refresh token provided"})
+
+    const accessToken = jwt.sign({userId: decoded.userId}, getEnv("ACCESS_TOKEN_SECRET"), {expiresIn: '15m'})
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: getEnv("NODE_ENV") === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    })
+
+    res.status(201).json({message: "Access token refreshed successfully"})
+  } catch (error) {
+    res.status(500).json({message: "server error", error: error.message })
+  }
+}

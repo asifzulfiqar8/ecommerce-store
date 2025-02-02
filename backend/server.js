@@ -1,5 +1,5 @@
 import express from 'express';
-import authRoutes from './routes/auth.route.js'
+import authRoutes from './routes/auth.routes.js'
 import getEnv from './config/config.js'
 import { connectDB } from './lib/db.js';
 import morgan from 'morgan';
