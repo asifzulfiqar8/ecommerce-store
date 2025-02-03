@@ -12,7 +12,7 @@ export const isAuthenticated = async (req, res, next) => {
         .json({ message: "Unauthorized, access token not provided" });
 
     try {
-      const decoded = jwt.verify(accessToken, getEnv("ACCESS_TOKEN_SECRET"));
+      const decoded = jwt.decode(accessToken, getEnv("ACCESS_TOKEN_SECRET"));
       const user = await User.findById(decoded.userId).select("-password");
 
       if (!user) return res.status(401).json({ message: "User not found" });
