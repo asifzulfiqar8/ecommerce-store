@@ -1,3 +1,5 @@
+import getEnv from "../config/config.js";
+import { stripe } from "../lib/stripe.js";
 import Coupon from "../models/coupon.model.js";
 
 const createCheckoutSession = async (req, res) => {
@@ -40,7 +42,33 @@ const createCheckoutSession = async (req, res) => {
         );
       }
     }
+
+    const session = stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: `${getEnv(
+        "CLIENT_URL"
+      )}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${getEnv("CLIENT_URL")}/purchase-cancel`,
+      discounts: coupon
+        ? [{ coupon: await createStripeCoupon(coupon.discountPercentage) }]
+        : [],
+      metadata: {
+        userId: req.user._id.toSring(),
+        couponCode: couponCode || "",
+      },
+    });
   } catch (error) {}
+};
+
+const createStripeCoupon = async (discountPercentage) => {
+  const coupon = await stripe.coupons.create({
+    percent_off: discountPercentage,
+    duration: "once",
+  });
+
+  return coupon.id;
 };
 
 export { createCheckoutSession };
