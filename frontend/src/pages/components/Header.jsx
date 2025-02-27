@@ -41,17 +41,26 @@ const Header = () => {
           {user ? (
             <button
               type="button"
-              className="px-4 py-1 rounded-md border border-white bg-white group hover:bg-primary transition-all duration-150"
+              className="px-4 py-1 rounded-md border flex items-center gap-2 text-base font-semibold border-white bg-white group hover:bg-primary hover:text-white transition-all duration-150"
             >
               <IoLogOutOutline
                 fontSize={20}
                 className="text-primary group-hover:text-white"
               />
+              Logout
             </button>
           ) : (
-            <button className="px-4 py-1 text-base font-semibold rounded-md border border-white bg-white hover:bg-primary transition-all duration-150">
-              Sign up
-            </button>
+            <Link
+              to="/login"
+              type="button"
+              className="px-4 py-1 rounded-md border flex items-center gap-2 text-base font-semibold border-white bg-white group hover:bg-primary hover:text-white transition-all duration-150"
+            >
+              <IoLogOutOutline
+                fontSize={20}
+                className="text-primary group-hover:text-white"
+              />
+              Login
+            </Link>
           )}
         </nav>
       </section>
