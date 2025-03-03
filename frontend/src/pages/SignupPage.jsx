@@ -3,6 +3,7 @@ import { Input } from "./components/Input";
 import { useState } from "react";
 import { VscEye } from "react-icons/vsc";
 import { VscEyeClosed } from "react-icons/vsc";
+import { useUserStore } from "../store/useUserStore";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -15,13 +16,14 @@ const SignupPage = () => {
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
   const handlePassword = () => setIsPassword(!isPassword);
   const handleConfirmPassword = () => setIsConfirmPassword(!isConfirmPassword);
+  const { signup } = useUserStore();
 
   const handleFormChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleForm = (e) => {
     e.preventDefault();
-    console.log("formData", formData);
+    signup(formData);
   };
   return (
     <div className="h-full min-h-svh lg:min-h-screen w-full grid place-items-center">
